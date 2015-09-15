@@ -28,15 +28,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <Button
-            android:layout_width="100px"
-            android:layout_height="100px"
-            android:id="@+id/my_button" />
-
-        <Button
-            android:layout_width="100px"
-            android:layout_height="100px"
-            android:id="@+id/do_it" />
         <fragment
             android:layout_width="match_parent"
             android:layout_height="match_parent"
