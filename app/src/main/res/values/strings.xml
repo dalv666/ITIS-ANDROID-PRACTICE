@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="error_msg">:) - smth wrong, just smile</string>
+    <string name="alone_msg">Sry, you are in the desert or in the ocean</string>
+    <string name="you_here_msg">You are here!:)</string>
+
+
 </resources>

@@ -6,9 +6,9 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Status;
@@ -22,19 +22,16 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.googlemaps.template.myapplication.model.GeoObject;
 import com.googlemaps.template.myapplication.services.YandexMapApiService;
 import com.googlemaps.template.myapplication.util.HttpConnection;
 import com.googlemaps.template.myapplication.util.PathJSONParser;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.AsyncHttpResponse;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,7 +42,6 @@ public class MyMapFragment extends MapFragment implements OnMapReadyCallback, Go
     private static final long FASTEST_INTERVAL = 1000 * 5;
     private GoogleApiClient mGoogleApiClient;
     private Location mCurrentLocation;
-    private String mLastUpdateTime;
     private GoogleMap mGoogleMap;
 
     @Override
@@ -53,7 +49,6 @@ public class MyMapFragment extends MapFragment implements OnMapReadyCallback, Go
         super.onCreate(savedInstanceState);
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
 
         //prepare google map
         createLocationRequest();
@@ -63,11 +58,6 @@ public class MyMapFragment extends MapFragment implements OnMapReadyCallback, Go
                 .addOnConnectionFailedListener(this)
                 .build();
     }
-
-
-
-
-
 
     @Override
     public void onStart() {
@@ -84,60 +74,52 @@ public class MyMapFragment extends MapFragment implements OnMapReadyCallback, Go
     /**
      * Temporary method
      */
-    private void addPoints(ArrayList<String> locations) {
+    private void addPoints(final List<GeoObject> locations) {
         final MarkerOptions options = new MarkerOptions();
 
-        final ArrayList<LatLng> latLngs = new ArrayList<>();
 
-        for (String loc : locations) {
-            Double latitude = Double.valueOf(loc.substring(0, 10));
-            Double longitude = Double.valueOf(loc.substring(10));
-
-            LatLng sydney = new LatLng(longitude,latitude);
-            latLngs.add(sydney);
-            options.position(sydney);
+        for (GeoObject loc : locations) {
+            options.position(loc.getLocation());
         }
 
-
-
-        String url = getMapsApiDirectionsUrl(latLngs);
+        String url = getMapsApiDirectionsUrl(locations);
         ReadTask downloadTask = new ReadTask();
         downloadTask.execute(url);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mGoogleMap.addMarker(options);
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngs.get(0),
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locations.get(0).getLocation(),
                         10));
-                addMarkers(latLngs);
+                addMarkers(locations);
             }
         });
     }
 
 
-
-
-
-    private void addMarkers(ArrayList<LatLng> latLngs) {
+    private void addMarkers(List<GeoObject> geoObjects) {
         if (mGoogleMap != null) {
-            for (LatLng latLng : latLngs) {
-                mGoogleMap.addMarker(new MarkerOptions().position(latLng)
-                        .title(latLng.toString()));
+            mGoogleMap.addMarker(new MarkerOptions().position(geoObjects.get(0).getLocation())
+                    .title(getResources().getText(R.string.you_here_msg)+"").alpha(0.3f));
+            for (int i = 1; i < geoObjects.size(); i++) {
+                mGoogleMap.addMarker(new MarkerOptions().position(geoObjects.get(i).getLocation())
+                        .title(geoObjects.get(i).getName()));
             }
+
         }
     }
 
 
-    private String getMapsApiDirectionsUrl(ArrayList<LatLng> latLngs) {
+    private String getMapsApiDirectionsUrl(List<GeoObject> geoObjects) {
         String waypoints = "waypoints=optimize:true|";
 
-        for (int i = 1; i < latLngs.size()-1; i++) {
-            waypoints+=latLngs.get(i).latitude+ "," + latLngs.get(i).longitude;
-            if(i != latLngs.size()-1){
+        for (int i = 1; i < geoObjects.size()-1; i++) {
+            waypoints+=geoObjects.get(i).getLocation().latitude+ "," + geoObjects.get(i).getLocation().longitude;
+            if(i != geoObjects.size()-1){
                 waypoints+= "|";
             }
         }
-        String originDest = "origin="+latLngs.get(0).latitude+","+latLngs.get(0).longitude+"&destination="+latLngs.get(latLngs.size()-1).latitude+","+latLngs.get(latLngs.size()-1).longitude;
+        String originDest = "origin="+geoObjects.get(0).getLocation().latitude+","+geoObjects.get(0).getLocation().longitude+"&destination="+geoObjects.get(geoObjects.size()-1).getLocation().latitude+","+geoObjects.get(geoObjects.size()-1).getLocation().longitude;
         String sensor = "sensor=false";
         String params = originDest +"&"+ waypoints + "&" + sensor;
         String output = "json";
@@ -145,10 +127,6 @@ public class MyMapFragment extends MapFragment implements OnMapReadyCallback, Go
                 + output + "?" + params;
         return url;
     }
-
-
-
-
 
 
 
@@ -172,8 +150,7 @@ public class MyMapFragment extends MapFragment implements OnMapReadyCallback, Go
         }
     }
 
-    private class ParserTask extends
-            AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
+    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
 
         @Override
         protected List<List<HashMap<String, String>>> doInBackground(
@@ -263,15 +240,11 @@ public class MyMapFragment extends MapFragment implements OnMapReadyCallback, Go
                         return;
                     }
                     try {
-                        ArrayList<String> locations = new ArrayList<>(10);
-                        JSONArray jsonArray = result.getJSONObject("response").getJSONObject("GeoObjectCollection").getJSONArray("featureMember");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject geoObject = (JSONObject) ((JSONObject) jsonArray.get(i)).get("GeoObject");
-                            JSONObject point = geoObject.getJSONObject("Point");
-                            String pos = point.getString("pos");
-                            locations.add(pos);
+                        List<GeoObject> geoObjectsFromJson = YandexMapApiService.getInstance().getGeoObjectsFromJson(result);
+                        if(geoObjectsFromJson.size()==0){
+                            Toast.makeText(getActivity(), getResources().getText(R.string.alone_msg), Toast.LENGTH_LONG).show();
                         }
-                        addPoints(locations);
+                        addPoints(geoObjectsFromJson);
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
@@ -298,7 +271,6 @@ public class MyMapFragment extends MapFragment implements OnMapReadyCallback, Go
     @Override
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
-        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         if(mGoogleMap!=null){
             updateUI();
         }else{
@@ -308,7 +280,7 @@ public class MyMapFragment extends MapFragment implements OnMapReadyCallback, Go
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        System.out.println();
+        Toast.makeText(getActivity(), getResources().getText(R.string.error_msg), Toast.LENGTH_LONG).show();
     }
 
 
