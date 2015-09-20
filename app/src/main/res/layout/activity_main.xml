@@ -29,7 +29,7 @@
         android:layout_height="match_parent"
         android:id="@+id/map"
         tools:context=".MapsActivity"
-        android:name="com.googlemaps.template.myapplication.MyMapFragment" />
+        android:name="com.googlemaps.template.myapplication.ui.MyMapFragment" />
 
 
 </android.support.design.widget.CoordinatorLayout>

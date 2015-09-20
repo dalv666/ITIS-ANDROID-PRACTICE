@@ -1,22 +1,35 @@
 package com.googlemaps.template.myapplication.model;
 
 
-import com.google.android.gms.maps.model.LatLng;
+import android.os.Parcel;
 
-public class GeoObject {
+import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+
+public class GeoObject extends RealmObject {
+
+    @SerializedName("name")
     private String name;
 
-    private LatLng location;
+    @SerializedName("pos")
+    private String pos;
 
 
-    public GeoObject(String location, String name) {
-        Double latitude = Double.valueOf(location.substring(0, 10));
-        Double longitude = Double.valueOf(location.substring(10));
-        this.location = new LatLng(longitude,latitude);
-        this.name = name;
+    public GeoObject() {
+        super();
     }
 
+
+    public GeoObject(String name, String pos) {
+        this.name = name;
+        this.pos = pos;
+    }
+
+    public GeoObject(Parcel in) {
+        this.name = in.readString();
+        this.pos = in.readString();
+    }
 
     public String getName() {
         return name;
@@ -26,11 +39,11 @@ public class GeoObject {
         this.name = name;
     }
 
-    public LatLng getLocation() {
-        return location;
+    public String getPos() {
+        return pos;
     }
 
-    public void setLocation(LatLng location) {
-        this.location = location;
+    public void setPos(String pos) {
+        this.pos = pos;
     }
 }
