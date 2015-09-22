@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Нотификатор</string>
+
+    <string name="hello_world">Привет!</string>
+    <string name="action_settings">Настройки</string>
+    <string name="show">Показать</string>
+    <string name="save">Сохранить</string>
+    <string name="wifi_name_label">Название Wi-fi сети</string>
+    <string name="alarm_timer_later">Показать позже</string>
+    <string name="be_proud_of">Ты можешь быть горд за себя</string>
+    <string name="see_notifier">Ты видишь оповещение</string>
+    <string name="app_is_shutdown">Приложение закрылось</string>
+    <string name="dont_go_away">Не уходи</string>
+    <string name="wake_app">Система только встала</string>
+    <string name="could_not_wake_app">А могла и не встать</string>
+    <string name="battery_is_go_away">Заряд уходит, настройки?</string>
+    <string name="hurry">Поспеши</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="ok">ОК</string>
+    <string name="you_are_connect">Ты уже в </string>
+    <string name="current_time">Текущее время</string>
+
+
+</resources>
