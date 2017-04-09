@@ -1,7 +1,7 @@
 # ITIS-ANDROID-PRACTICE
 Летняя практика - лаборатория "Android"
 
-####Преподаватель: Ильсеяр Алимова,????
+#### Преподаватель: Ильсеяр Алимова,????
 
 ##### Задания:
 ##### Задание№1 
@@ -19,11 +19,11 @@
 </ul>
 
 </ul>
-######Исходники: [sources](https://github.com/dalv666/ITIS-ANDROID-PRACTICE/tree/master/app/src/main/java/com/googlemaps/template/myapplication)
+###### Исходники: [sources](https://github.com/dalv666/ITIS-ANDROID-PRACTICE/tree/master/app/src/main/java/com/googlemaps/template/myapplication)
 ##### Задание№2
 
 Cоздать приложение “Галерея”, где пользователь может просматривать набор картинок, которые скачиваются с сервера.
-######Описание:
+###### Описание:
 Приложение состоит из двух экранов. На первом экране пользователю отображается галерея изображений. Галерея скроллится, и у пользователя есть возможность посмотреть все картинки. По нажатию на любую картинку осуществляется переход на новый экран, где пользователю в полный размер отображается выбранное изображение.
 
 <ul>
@@ -39,7 +39,7 @@ Cоздать приложение “Галерея”, где пользова
   </ul>
 </li>
 </ul>
-######Исходники: [sources](https://github.com/dalv666/ITIS-ANDROID-PRACTICE/tree/ImageGallery/app/src/main/java/org/dalv/practice/android/itis/customgallery)
+###### Исходники: [sources](https://github.com/dalv666/ITIS-ANDROID-PRACTICE/tree/ImageGallery/app/src/main/java/org/dalv/practice/android/itis/customgallery)
 ##### Задание№4 
 Необходимо организовать оповещение пользователя уведомлением в строке состояния для различных ситуаций
 <ul>
@@ -51,4 +51,4 @@ Cоздать приложение “Галерея”, где пользова
 <li>При разрядке батареи до 30%. У этого уведомления должно быть 2 кнопки: первая с текстом “Настройки”, по нажатию на которую пользователь должен попасть на экран управления настройками батареи, и вторая с текстом “ОК”, по нажатию на которую уведомление пропадает</li>
 <li>Подключение к wi-fi. При подключении к заданной сети wi-fi, приложение должно выдать уведомление. Название сети задается в EditText пользователем</li>
 </ul>
-######Исходники: [sources](https://github.com/dalv666/ITIS-ANDROID-PRACTICE/tree/Task%234/app/src/main/java/org/dalv/practice/android/itis/notification)
+###### Исходники: [sources](https://github.com/dalv666/ITIS-ANDROID-PRACTICE/tree/Task%234/app/src/main/java/org/dalv/practice/android/itis/notification)
