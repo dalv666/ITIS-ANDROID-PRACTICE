@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="error_msg">:) - smth wrong, just smile</string>
+    <string name="alone_msg">Sry, you are in the desert or in the ocean</string>
+    <string name="you_here_msg">You are here!:)</string>
+    <string name="edit">Редактирование</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Отмена</string>
+    <string name="delete_from_route">" удален из маршрута"</string>
+    <string name="server_error">Ошибка сервера</string>
+    <string name="server_error_description">При обращению к серверу произошла ошибка</string>
+    <string name="repeat">Повторить</string>
+    <string name="not_selected">Вы ничего не выбрали</string>
+    <string name="sorry">К сожелению не получиться</string>
+
+
+</resources>
